@@ -4,6 +4,7 @@ canvas/*
 svg/*
 cairo/*
 postscript/*
+sunroof/*
 *-index.html
 .hsenv_*
 dist_*
