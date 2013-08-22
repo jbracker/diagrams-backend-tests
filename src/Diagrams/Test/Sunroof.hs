@@ -1,7 +1,7 @@
 module Diagrams.Test.Sunroof (sunroofTester) where
 
 
-import Data.Default
+import Data.Default.Class
 import Language.Sunroof hiding ( (!) )
 import Language.Sunroof.JS.Browser as SR
 import Language.Sunroof.JS.Canvas as SR

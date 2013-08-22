@@ -10,6 +10,7 @@ module Diagrams.Tests
         ) where
 
 import           Diagrams.Core.Points
+import           Diagrams.Coordinates
 import           Diagrams.Prelude
 import           Diagrams.TwoD.Text
 import           Text.Html            (Html, bgcolor, body, concatHtml,
