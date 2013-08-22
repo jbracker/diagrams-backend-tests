@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveDataTypeable        #-}
 {-# LANGUAGE FlexibleContexts          #-}
 {-# LANGUAGE MultiParamTypeClasses     #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
@@ -9,6 +10,8 @@ module Diagrams.Tests
         , examples
         ) where
 
+import           Data.Typeable
+import           Diagrams.Coordinates ((&))
 import           Diagrams.Core.Points
 import           Diagrams.Coordinates
 import           Diagrams.Prelude
@@ -185,6 +188,24 @@ examples =
 
         , Test "fat" $
                unitCircle # lw 0.3 # scaleX 2 # pad 1.3
+
+        , Test "connect" $ connect_example
+
+        , Test "fill-line" $
+               strokeLine (fromVertices [origin, 0 & 2, 3 & 3, 4 & 1])
+                 # fc blue
+
+        , Test "fill-loop" $
+               strokeLoop (fromVertices [origin, 0 & 2, 3 & 3, 4 & 1] # closeLine)
+                 # fc blue
+
+        , Test "line-loop" $
+               fc green $
+               stroke $
+               trailLike ((fromVertices [origin, 0 & 2, 3 & 3, 4 & 1] # rotateBy (1/12) # closeLine # wrapLoop) `at` origin)
+               <>
+               trailLike ((fromVertices [origin, 0 & 2, 3 & 3, 4 & 1] # wrapLine) `at` origin)
+
         ]
 
 poly_example = (poly1 ||| strutX 1 ||| poly2) # lw 0.05
@@ -193,3 +214,26 @@ poly_example = (poly1 ||| strutX 1 ||| poly2) # lw 0.05
                                , polyOrient = OrientV }
           poly2 = polygon with { polyType   = PolyPolar (repeat (1/40 :: CircleFrac))
                                        (take 40 $ cycle [2,7,4,6]) }
+
+data Corner = NW | NE | SW | SE
+  deriving (Typeable, Eq, Ord, Show)
+instance IsName Corner
+
+connect n1 n2
+  = withName n1 $ \b1 ->
+    withName n2 $ \b2 ->
+      atop ((location b1 ~~ location b2) # lc red # lw 0.05)
+
+squares =  (s # named NW ||| s # named NE)
+       === (s # named SW ||| s # named SE)
+  where s = square 1 # lw 0.05
+
+d = hcat' with {sep = 0.5} (zipWith (|>) [0::Int ..] (replicate 5 squares))
+
+pairs = [ ((0::Int) .> NE, (2::Int) .> SW)
+        , ((1::Int) .> SE, (4::Int) .> NE)
+        , ((3::Int) .> NW, (3::Int) .> SE)
+        , ((0::Int) .> SE, (1::Int) .> NW)
+        ]
+
+connect_example = d # applyAll (map (uncurry connect) pairs)

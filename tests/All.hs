@@ -4,6 +4,7 @@ import Diagrams.Test.Cairo
 import Diagrams.Test.Postscript
 import Diagrams.Test.SVG
 import Diagrams.Test.Sunroof
+import Diagrams.Test.PDF
 import Diagrams.Tests
 import System.Directory
 
@@ -12,5 +13,6 @@ main = do
    createDirectoryIfMissing False "cairo"
    createDirectoryIfMissing False "postscript"
    createDirectoryIfMissing False "sunroof"
+   createDirectoryIfMissing False "pdf"
    runTests examples "all-index.html" $ 
-     [cairoTester, svgTester, postscriptTester, sunroofTester]
+     [cairoTester, svgTester, postscriptTester, sunroofTester, pdfTester]
