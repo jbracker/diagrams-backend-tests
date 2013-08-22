@@ -15,7 +15,7 @@ sunroofTester :: (String, Test -> IO Html)
 sunroofTester =
   ( "Sunroof"
   , \ (Test nm dig) -> do
-      let ident = "sunroof_" ++ nm
+      let ident = "sunroof_" ++ fmap (\c -> if (c=='-') then '_' else c) nm
       let jsCode = renderDia SunroofBackend (SunroofOptions (Dims 200 200)) dig
       strCode <- sunroofCompileJSA def ident $ do
                     renderF <- function jsCode

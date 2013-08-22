@@ -36,6 +36,7 @@ Executable all-test
                        diagrams-svg >= 0.7 && < 0.8,
                        diagrams-postscript >= 0.7 && < 0.8,
                        diagrams-sunroof >= 0.1,
+                       diagrams-pdf >= 0.2,
                        sunroof-compiler == 0.2.*,
                        blaze-svg >= 0.3.3 && < 0.4,
                        bytestring >= 0.9  && < 0.11,
